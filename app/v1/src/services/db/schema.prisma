@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  uuid               String            @id @default(uuid())
+  name               String
+  surname            String
+  phone              String            @unique
+  email              String            @unique
+  cart               UserCart[]
+  productOfComments  ProductComment[]
+  productOfFavorites ProductFavorite[]
+  Order              Order[]
+}
+
+model Product {
+  uuid               String            @id @default(uuid())
+  title              String
+  price              Float
+  image              String
+  cart               UserCart[]
+  commentsOfProduct  ProductComment[]
+  favoritesOfProduct ProductFavorite[]
+  Order              Order[]
+}
+
+model UserCart {
+  uuid        String   @id @default(uuid())
+  userUuid    String
+  productUuid String
+  product     Product? @relation(fields: [productUuid], references: [uuid])
+  user        User?    @relation(fields: [userUuid], references: [uuid])
+}
+
+model ProductComment {
+  uuid        String   @id @default(uuid())
+  content     String
+  userUuid    String
+  productUuid String
+  user        User?    @relation(fields: [userUuid], references: [uuid])
+  product     Product? @relation(fields: [productUuid], references: [uuid])
+}
+
+model ProductFavorite {
+  uuid        String @id @default(uuid())
+  userUuid    String
+  productUuid String
+
+  user    User?    @relation(fields: [userUuid], references: [uuid])
+  product Product? @relation(fields: [productUuid], references: [uuid])
+}
+
+model Order {
+  uuid        String   @id @default(uuid())
+  userUuid    String
+  productUuid String
+  quantity    Int
+  product     Product? @relation(fields: [productUuid], references: [uuid])
+  user        User?    @relation(fields: [userUuid], references: [uuid])
+}

@@ -1,0 +1,39 @@
+{
+  "name": "mayzor-backend-test-case",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon ./app/v1/main.ts",
+    "app:seed": "npm run prisma:reset && ts-node ./app/v1/src/seed/index.ts",
+    "prisma:reset": "npx prisma migrate reset",
+    "prisma:migrate": "npm run prisma:migration && npm run prisma:generate",
+    "prisma:migration": "npx prisma migrate dev --name update",
+    "prisma:generate": "npx prisma generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ismailulgac-23/mayzor-backend-test-case.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ismailulgac-23/mayzor-backend-test-case/issues"
+  },
+  "homepage": "https://github.com/ismailulgac-23/mayzor-backend-test-case#readme",
+  "devDependencies": {
+    "@prisma/client": "^4.10.1",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.14.1",
+    "@types/uuid": "^9.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "prisma": "^4.10.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "uuid": "^9.0.0"
+  },
+  "prisma": {
+    "schema": "./app/v1/src/services/db/schema.prisma"
+  }
+}
